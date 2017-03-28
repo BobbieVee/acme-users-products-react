@@ -28,6 +28,14 @@ app.get('/api/products', (req, res, next)=>{
 	.catch(next);
 });
 
+app.delete('/api/products/:id',(req, res, next)=>{
+	db.models.Product.destroy({where: {id: req.params.id}})
+	.then((product)=>{
+		res.sendStatus(200);
+	})
+	.catch(next);
+})
+
 db.seed()
 .then(()=>{
 	console.log("Synced");

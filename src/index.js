@@ -17,6 +17,7 @@ class Main extends React.Component{
 			productTotal: 0
 		};
 		this.changeActive = this.changeActive.bind(this);
+		this.deleteProduct = this.deleteProduct.bind(this);
 	}
 
 	componentWillMount(){
@@ -39,11 +40,17 @@ class Main extends React.Component{
 		}
 	}
 
+	deleteProduct(productId, index){
+		this.state.products.splice(index,1);
+		this.setState({});
+		axios.delete(`/api/products/${productId}`)
+	}
+
 	render(){
 		return(
 			<div className='container'>
 				< Tabs userTotal = {this.state.userTotal} productTotal={this.state.productTotal} activeTab={this.state.activeTab} changeActive={this.changeActive} />
-				{this.state.activeTab === 'users'? < Users users={this.state.users}/> : < Products products={this.state.products}/>}
+				{this.state.activeTab === 'users'? < Users users={this.state.users}/> : < Products products={this.state.products} deleteProduct={this.deleteProduct}/>}
 			</div>
 		)
 	}

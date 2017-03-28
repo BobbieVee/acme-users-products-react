@@ -2003,6 +2003,7 @@ var Main = function (_React$Component) {
 			productTotal: 0
 		};
 		_this.changeActive = _this.changeActive.bind(_this);
+		_this.deleteProduct = _this.deleteProduct.bind(_this);
 		return _this;
 	}
 
@@ -2030,13 +2031,20 @@ var Main = function (_React$Component) {
 			}
 		}
 	}, {
+		key: 'deleteProduct',
+		value: function deleteProduct(productId, index) {
+			this.state.products.splice(index, 1);
+			this.setState({});
+			_axios2.default.delete('/api/products/' + productId);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'container' },
 				_react2.default.createElement(_Tabs2.default, { userTotal: this.state.userTotal, productTotal: this.state.productTotal, activeTab: this.state.activeTab, changeActive: this.changeActive }),
-				this.state.activeTab === 'users' ? _react2.default.createElement(_users2.default, { users: this.state.users }) : _react2.default.createElement(_products2.default, { products: this.state.products })
+				this.state.activeTab === 'users' ? _react2.default.createElement(_users2.default, { users: this.state.users }) : _react2.default.createElement(_products2.default, { products: this.state.products, deleteProduct: this.deleteProduct })
 			);
 		}
 	}]);
@@ -23435,6 +23443,7 @@ var Products = function (_React$Component) {
 	_createClass(Products, [{
 		key: 'render',
 		value: function render() {
+			var deleteProduct = this.props.deleteProduct;
 			return _react2.default.createElement(
 				'div',
 				{ className: 'container' },
@@ -23446,12 +23455,18 @@ var Products = function (_React$Component) {
 				_react2.default.createElement(
 					'ul',
 					{ className: 'list-group' },
-					this.props.products.map(function (product) {
+					this.props.products.map(function (product, index) {
 						return _react2.default.createElement(
 							'li',
-							{ key: product.id, className: 'list-group-item' },
+							{ key: product.id, className: 'list-group-item clearfix' },
 							product.name,
-							' '
+							_react2.default.createElement(
+								'button',
+								{ onClick: function onClick() {
+										return deleteProduct(product.id, index);
+									}, className: 'btn btn-danger pull-right' },
+								'Delete'
+							)
 						);
 					})
 				)
