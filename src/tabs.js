@@ -6,8 +6,8 @@ export default class Tabs extends React.Component{
 		return(
 			<div className='container'> 	
 				<ul className='nav nav-tabs'>
-					<li id='users' className={this.props.activeTab==='users'?'active':''}><a onClick={() => this.props.changeActive('users')} >Users</a></li>
-					<li id='products' className={this.props.activeTab==='products'?'active':''}><a onClick={() => this.props.changeActive('products')} >Products</a></li>
+					<li id='users' className={this.props.activeTab==='users'?'active':''}><a onClick={() => this.props.changeActive('users')} >Users ({this.props.userTotal})</a></li>
+					<li id='products' className={this.props.activeTab==='products'?'active':''}><a onClick={() => this.props.changeActive('products')} >Products ({this.props.productTotal})</a></li>
 				</ul> 	
 			</div>
 		)

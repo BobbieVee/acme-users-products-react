@@ -8,8 +8,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')))
 
 
-app.use('/', (req, res, next)=>{
+app.get('/', (req, res, next)=>{
 	res.sendFile(path.join(__dirname, './public/index.html'))
+});
+
+app.get('/api/users', (req, res, next)=>{
+	db.models.User.findAll()
+	.then((users) =>{
+		res.send(users)
+	} )
+	.catch(next);
+});
+
+app.get('/api/products', (req, res, next)=>{
+	db.models.Product.findAll()
+	.then((products) =>{
+		res.send(products)
+	} )
+	.catch(next);
 });
 
 db.seed()

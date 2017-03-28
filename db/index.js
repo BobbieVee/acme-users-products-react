@@ -33,5 +33,9 @@ const seed = () => {
 
 module.exports = {
 	sync,
-	seed
+	seed,
+	models: {
+		User,
+		Product
+	}
 }
