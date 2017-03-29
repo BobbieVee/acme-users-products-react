@@ -3,10 +3,11 @@ const app = express();
 const db = require('./db');
 const port = process.env.PORT || 3000;
 const path = require('path');
+const bodyParser = require('body-parser');
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'node_modules')))
-
+app.use(express.static(path.join(__dirname, 'node_modules')));
+app.use(bodyParser.json());
 
 app.get('/', (req, res, next)=>{
 	res.sendFile(path.join(__dirname, './public/index.html'))
@@ -26,7 +27,15 @@ app.get('/api/products', (req, res, next)=>{
 		res.send(products)
 	} )
 	.catch(next);
-});
+}); 
+
+app.post('/api/products', (req, res, next)=>{
+	db.models.Product.create(req.body)
+	.then((product)=>{
+		res.send(product)	
+	})
+	.catch(next);
+})
 
 app.delete('/api/products/:id',(req, res, next)=>{
 	db.models.Product.destroy({where: {id: req.params.id}})
@@ -34,7 +43,7 @@ app.delete('/api/products/:id',(req, res, next)=>{
 		res.sendStatus(200);
 	})
 	.catch(next);
-})
+});
 
 db.seed()
 .then(()=>{
