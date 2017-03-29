@@ -7,7 +7,6 @@ export default class ProductForm extends React.Component{
 		this.state = {name: ''};
 		this.onChangeName = this.onChangeName.bind(this);
 		this.createProduct = (ev)=> {
-			ev.preventDefault();
 			this.props.createProduct(this.state.name);
 			this.setState({name: ''})
 		}

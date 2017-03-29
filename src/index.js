@@ -10,11 +10,9 @@ class Main extends React.Component{
 	constructor(props){
 		super();
 		this.state = {
-			activeTab: 'users',
+			activeTab: 'products',
 			users: [],
-			products: [],
-			userTotal: 0,
-			productTotal: 0
+			products: []
 		};
 		this.changeActive = this.changeActive.bind(this);
 		this.deleteProduct = this.deleteProduct.bind(this);
@@ -25,12 +23,12 @@ class Main extends React.Component{
 		axios.get('/api/users')
 		.then((res)=> res.data)
 		.then((users) => {
-			this.setState({users: users, userTotal: users.length});
+			this.setState({users: users});
 		});
 		axios.get('/api/products')
 		.then((res)=> res.data)
 		.then((products) => {
-			this.setState({products: products, productTotal: products.length});
+			this.setState({products: products});
 		})
 
 	}
@@ -51,7 +49,6 @@ class Main extends React.Component{
 		axios.post('/api/products/', {name: name})
 		.then((product)=>{
 			this.state.products.push(product.data);
-			this.state.productTotal = this.state.products.length;
 			this.setState({});
 		})
 	}
@@ -59,7 +56,7 @@ class Main extends React.Component{
 	render(){
 		return(
 			<div className='container'>
-				< Tabs userTotal = {this.state.userTotal} productTotal={this.state.productTotal} activeTab={this.state.activeTab} changeActive={this.changeActive} />
+				< Tabs userTotal = {this.state.users.length} productTotal={this.state.products.length} activeTab={this.state.activeTab} changeActive={this.changeActive} />
 				{this.state.activeTab === 'users'? < Users users={this.state.users}/> : < Products products={this.state.products} createProduct={this.createProduct} deleteProduct={this.deleteProduct}/>}
 			</div>
 		)

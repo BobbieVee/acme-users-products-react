@@ -11233,11 +11233,9 @@ var Main = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this));
 
 		_this.state = {
-			activeTab: 'users',
+			activeTab: 'products',
 			users: [],
-			products: [],
-			userTotal: 0,
-			productTotal: 0
+			products: []
 		};
 		_this.changeActive = _this.changeActive.bind(_this);
 		_this.deleteProduct = _this.deleteProduct.bind(_this);
@@ -11253,12 +11251,12 @@ var Main = function (_React$Component) {
 			_axios2.default.get('/api/users').then(function (res) {
 				return res.data;
 			}).then(function (users) {
-				_this2.setState({ users: users, userTotal: users.length });
+				_this2.setState({ users: users });
 			});
 			_axios2.default.get('/api/products').then(function (res) {
 				return res.data;
 			}).then(function (products) {
-				_this2.setState({ products: products, productTotal: products.length });
+				_this2.setState({ products: products });
 			});
 		}
 	}, {
@@ -11282,7 +11280,6 @@ var Main = function (_React$Component) {
 
 			_axios2.default.post('/api/products/', { name: name }).then(function (product) {
 				_this3.state.products.push(product.data);
-				_this3.state.productTotal = _this3.state.products.length;
 				_this3.setState({});
 			});
 		}
@@ -11292,7 +11289,7 @@ var Main = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'container' },
-				_react2.default.createElement(_Tabs2.default, { userTotal: this.state.userTotal, productTotal: this.state.productTotal, activeTab: this.state.activeTab, changeActive: this.changeActive }),
+				_react2.default.createElement(_Tabs2.default, { userTotal: this.state.users.length, productTotal: this.state.products.length, activeTab: this.state.activeTab, changeActive: this.changeActive }),
 				this.state.activeTab === 'users' ? _react2.default.createElement(_users2.default, { users: this.state.users }) : _react2.default.createElement(_products2.default, { products: this.state.products, createProduct: this.createProduct, deleteProduct: this.deleteProduct })
 			);
 		}
@@ -23598,7 +23595,6 @@ var ProductForm = function (_React$Component) {
 		_this.state = { name: '' };
 		_this.onChangeName = _this.onChangeName.bind(_this);
 		_this.createProduct = function (ev) {
-			ev.preventDefault();
 			_this.props.createProduct(_this.state.name);
 			_this.setState({ name: '' });
 		};
